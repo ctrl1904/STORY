@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+<meta charset='UTF-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>Aadya ❤️ Devansh Story</title>
+<style>
+    body {
+        margin: 0;
+        height: 100vh;
+        font-family: 'Segoe UI', sans-serif;
+        background: linear-gradient(135deg, #c8e4f8, #e3f2fd);
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+    }
+    .hearts {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        top: 0;
+        left: 0;
+        z-index: 0;
+    }
+    .heart {
+        position: absolute;
+        color: rgba(255, 105, 180, 0.6);
+        font-size: 20px;
+        animation: float 8s infinite;
+    }
+    @keyframes float {
+        0% { transform: translateY(100vh) scale(1); opacity: 0.7; }
+        100% { transform: translateY(-10vh) scale(1.5); opacity: 0; }
+    }
+    .container {
+        z-index: 1;
+        text-align: center;
+        max-width: 90%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    img {
+        max-width: 320px;
+        max-height: 320px;
+        border-radius: 20px;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        margin-bottom: 20px;
+    }
+    p {
+        font-size: 1.2rem;
+        line-height: 1.6;
+        margin-bottom: 20px;
+        min-height: 100px;
+    }
+    button {
+        background-color: #64b5f6;
+        border: none;
+        padding: 12px 25px;
+        border-radius: 25px;
+        color: white;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: background 0.3s;
+    }
+    button:hover {
+        background-color: #42a5f5;
+    }
+    button:disabled {
+        background-color: #90caf9;
+        cursor: not-allowed;
+    }
+    .final-text {
+        font-size: 2rem;
+        font-weight: bold;
+        color: #1a237e;
+        animation: pop 0.5s ease-in-out infinite alternate;
+    }
+    @keyframes pop {
+        0% { transform: scale(1); color: #1a237e; }
+        100% { transform: scale(1.1); color: #f50057; }
+    }
+</style>
+</head>
+<body>
+
+<div class='hearts'></div>
+
+<div class='container'>
+    <img id='storyImage' src='' alt='Story Photo' style='display:none;'>
+    <p id='storyText'></p>
+    <button id='nextButton'>Start Story</button>
+</div>
+
+<script>
+const story = [
+    {
+        img: 'images/photo1.png',
+        text: 'There he is. My Devansh. Sitting like the lead actor of a slow Bollywood love story. Staring into the distance like he\'s thinking about the universe\'s deepest mysteries. But I know him — 90% chance he\'s wondering what to eat for dinner, 10% chance he\'s thinking about me. Babe, I hope it\'s the second one, or else... hmph.'
+    },
+    {
+        img: 'images/photo2.png',
+        text: 'Suddenly, his eyes light up. Ohhh, Sherlock Devansh has entered the chat. That\'s the exact face he makes when he thinks he\'s solved something... probably my Instagram activity. He\'s like: "Aadya was online, but didn\'t reply to me... suspicious." Chill, CID, sometimes a girl just... scrolls memes.'
+    },
+    {
+        img: 'images/photo3.png',
+        text: 'And then... tragedy strikes. He sees my story — me, out laughing, with no him in sight. This face? This is pure heartbreak mixed with 2% anger and 98% "how dare she look this happy without me?" Relax, drama king. It was just coffee. With my friends. I swear.'
+    },
+    {
+        img: 'images/photo4.png',
+        text: 'Ah, the smirk. The dangerous one. The "I\'m plotting revenge" one. The one that says: "She has no idea what\'s coming." You think you\'re unpredictable, Devansh, but let\'s be honest — I\'ve cracked your code. Still, I\'ll let you think you\'re mysterious... because I like you that much.'
+    }
+];
+
+
+let index = 0;
+const storyImage = document.getElementById('storyImage');
+const storyText = document.getElementById('storyText');
+const nextButton = document.getElementById('nextButton');
+
+function typeWriter(text, i, fnCallback) {
+    if (i < text.length) {
+        storyText.textContent = text.substring(0, i + 1);
+        setTimeout(() => {
+            typeWriter(text, i + 1, fnCallback);
+        }, 30);
+    } else if (typeof fnCallback === 'function') {
+        fnCallback();
+    }
+}
+
+nextButton.addEventListener('click', () => {
+    if (index < story.length) {
+        storyImage.style.display = 'block';
+        storyImage.src = story[index].img;
+        storyText.textContent = '';
+        nextButton.disabled = true; // disable button while typing
+        typeWriter(story[index].text, 0, () => {
+            nextButton.disabled = false; // enable when typing finishes
+        });
+        nextButton.textContent = 'Next';
+        index++;
+    } else {
+        storyImage.style.display = 'none';
+        storyText.innerHTML = '<span class="final-text">Made by me, MF 😘("i tried with humor sobs* this was the best i could do sobs*") – Aadya</span>';
+        nextButton.style.display = 'none';
+    }
+});
+
+// Floating hearts
+const heartsContainer = document.querySelector('.hearts');
+function createHeart() {
+    const heart = document.createElement('div');
+    heart.classList.add('heart');
+    heart.textContent = '❤️';
+    heart.style.left = Math.random() * 100 + 'vw';
+    heart.style.animationDuration = (Math.random() * 3 + 5) + 's';
+    heartsContainer.appendChild(heart);
+    setTimeout(() => {
+        heart.remove();
+    }, 8000);
+}
+setInterval(createHeart, 500);
+</script>
+
+</body>
+</html>
